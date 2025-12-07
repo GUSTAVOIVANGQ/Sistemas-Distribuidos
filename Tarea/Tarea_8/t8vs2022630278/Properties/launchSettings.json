@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "t8vs2022630278": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7106",
+      "launchBrowser": false
+    }
+  }
+}
