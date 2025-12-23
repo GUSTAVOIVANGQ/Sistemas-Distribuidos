@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "t9_2022630278_gu": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7049",
+      "launchBrowser": false
+    }
+  }
+}
