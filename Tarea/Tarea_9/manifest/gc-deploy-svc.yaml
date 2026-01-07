@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: t9-2022630278-gc
+  namespace: t9-2022630278
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: t9-gc }
+  template:
+    metadata:
+      labels: { app: t9-gc }
+    spec:
+      containers:
+      - name: gc
+        image: t92022630278acr.azurecr.io/t9_2022630278_gc:latest
+        ports:
+        - containerPort: 80
+        envFrom:
+        - secretRef: { name: mysql-credentials-gc }
+        - configMapRef: { name: ms-config }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: t9-2022630278-gc-svc
+  namespace: t9-2022630278
+spec:
+  type: ClusterIP
+  selector: { app: t9-gc }
+  ports:
+  - port: 80
+    targetPort: 80

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: t9-2022630278-sw
+  namespace: t9-2022630278
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: t9-sw }
+  template:
+    metadata:
+      labels: { app: t9-sw }
+    spec:
+      containers:
+      - name: sw
+        image: t92022630278acr.azurecr.io/t9_2022630278_sw:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: ROOT
+          valueFrom:
+            configMapKeyRef: { name: ms-config, key: ROOT }
+        volumeMounts:
+        - name: webfiles
+          mountPath: /mnt/webfiles
+      volumes:
+      - name: webfiles
+        persistentVolumeClaim:
+          claimName: t9-webfiles-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: t9-2022630278-sw-svc
+  namespace: t9-2022630278
+spec:
+  type: ClusterIP
+  selector: { app: t9-sw }
+  ports:
+  - port: 80
+    targetPort: 80

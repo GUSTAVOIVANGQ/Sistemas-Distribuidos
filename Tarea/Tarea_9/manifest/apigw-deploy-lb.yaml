@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: t9-2022630278-apigw
+  namespace: t9-2022630278
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: t9-apigw }
+  template:
+    metadata:
+      labels: { app: t9-apigw }
+    spec:
+      containers:
+      - name: apigw
+        image: t92022630278acr.azurecr.io/simple-api-gateway:latest
+        ports:
+        - containerPort: 443
+        env:
+        - name: keystore
+          value: /keystore/keystore_servidor.jks
+        - name: password
+          value: "1234567"
+        volumeMounts:
+        - name: keystore
+          mountPath: /keystore
+      volumes:
+      - name: keystore
+        secret:
+          secretName: apigw-keystore
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: t9-2022630278-apigw-svc
+  namespace: t9-2022630278
+spec:
+  type: LoadBalancer
+  selector: { app: t9-apigw }
+  ports:
+  - name: https
+    port: 443
+    targetPort: 443

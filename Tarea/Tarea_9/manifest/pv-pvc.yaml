@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: t9-webfiles-pv
+  namespace: t9-2022630278
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: file.csi.azure.com
+    volumeHandle: t9-webfiles-pv
+    volumeAttributes:
+      shareName: t9webfiles
+    nodeStageSecretRef:
+      name: azure-file-secret
+      namespace: t9-2022630278
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: t9-webfiles-pvc
+  namespace: t9-2022630278
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+  volumeName: t9-webfiles-pv
