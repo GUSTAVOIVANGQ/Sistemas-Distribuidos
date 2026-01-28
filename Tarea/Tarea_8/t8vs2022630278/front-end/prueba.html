@@ -1,26 +1,206 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" charset="utf-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Carlos Pineda Guerrero. 2025">
   <title>Tarea 8 - E-commerce Serverless</title>
   <script src='/api/Get?nombre=/WSClient.js'></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:#fafafa; color:#222; }
-    .container { width:320px; margin:auto; padding:8px 0 24px 0; }
-    h2 { text-align:center; }
-    input, select, textarea { width:100%; box-sizing:border-box; padding:8px; margin:4px 0; }
-    button { width:100%; height:40px; margin:6px 0; }
-    .btn-inline { width:auto; height:auto; padding:6px 10px; margin:4px 6px 0 0; }
-    .card { border:1px solid #ddd; background:#fff; border-radius:8px; padding:10px; margin:10px 0; }
-    .row { display:flex; gap:8px; align-items:center; }
-    .row-col { display:flex; flex-direction:column; gap:6px; }
-    .img60 { width:60px; height:60px; object-fit:cover; border-radius:6px; background:#eee; }
-    .toolbar { display:flex; gap:8px; flex-wrap:wrap; }
-    .muted { color:#666; font-size:0.9em; }
-    .success { color:#0a7; }
-    .error { color:#c00; }
-    .spinner { display:none; text-align:center; margin:8px 0; }
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --secondary: #64748b;
+      --bg: #f3f4f6;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --danger: #ef4444;
+      --success: #22c55e;
+      --radius: 12px;
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    }
+
+    body { 
+      font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+      background: var(--bg); 
+      color: var(--text); 
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container { 
+      width: 100%; 
+      max-width: 480px; 
+      background: var(--card-bg);
+      padding: 32px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-top: 20px;
+    }
+
+    h2 { 
+      text-align: center; 
+      color: var(--primary); 
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      margin-bottom: 4px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    input, select, textarea { 
+      width: 100%; 
+      box-sizing: border-box; 
+      padding: 12px; 
+      margin: 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: all 0.2s;
+      background: #f8fafc;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+      background: #fff;
+    }
+
+    button { 
+      width: 100%; 
+      height: 48px; 
+      margin: 20px 0 0 0; 
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button.secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-light);
+      margin-top: 12px;
+    }
+
+    button.secondary:hover {
+      background: #f1f5f9;
+      color: var(--text);
+    }
+
+    .btn-inline { 
+      width: auto; 
+      height: 32px; 
+      padding: 0 12px; 
+      margin: 0;
+      font-size: 0.875rem;
+      margin-top: auto;
+    }
+
+    .card { 
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px; 
+      padding: 16px; 
+      margin: 16px 0; 
+      box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    }
+
+    .row { 
+      display: flex; 
+      gap: 16px; 
+      align-items: flex-start;
+    }
+
+    .row-col { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 4px; 
+      flex: 1;
+    }
+
+    .img60 { 
+      width: 80px; 
+      height: 80px; 
+      object-fit: cover; 
+      border-radius: 8px; 
+      background: #cbd5e1; 
+    }
+
+    .toolbar { 
+      display: flex; 
+      gap: 8px; 
+      flex-wrap: wrap; 
+      margin-top: 8px;
+    }
+
+    .muted { 
+      color: var(--text-light); 
+      font-size: 0.875em; 
+    }
+
+    .success { 
+      color: var(--success); 
+      background: #dcfce7;
+      padding: 12px;
+      border-radius: 6px;
+      text-align: center;
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    .error { 
+      color: var(--danger);
+      background: #fee2e2;
+      padding: 12px;
+      border-radius: 6px;
+      text-align: center;
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    .spinner { 
+      display: none; 
+      text-align: center; 
+      margin: 16px 0;
+      color: var(--primary);
+    }
+
+    /* Utilerias para espaciado en formularios */
+    .form-section { margin-bottom: 16px; }
+    
   </style>
   <script>
     var URL = "/api";
@@ -305,7 +485,7 @@
     function render_resultados()
     {
       var cont = get("resultados"); cont.innerHTML = "";
-      if (!resultados || resultados.length===0){ cont.innerHTML = "<div class='muted'>Sin resultados</div>"; return; }
+      if (!resultados || resultados.length===0){ cont.innerHTML = "<div class='muted' style='text-align:center; padding:20px;'>Sin resultados</div>"; return; }
       resultados.forEach(a =>
       {
         var card = document.createElement("div"); card.className="card";
@@ -314,19 +494,44 @@
         var info = document.createElement("div"); info.className="row-col";
         var nombre = document.createElement("strong"); nombre.innerText = a.nombre;
         var des = document.createElement("div"); des.className="muted"; des.innerText = a.descripcion;
-        var precio = document.createElement("div"); precio.innerText = "Precio: $" + a.precio;
-        var qtyRow = document.createElement("div"); qtyRow.className="row"; qtyRow.style.justifyContent="space-between";
-        var qtyLabel = document.createElement("span"); qtyLabel.innerText = "Cantidad: ";
-        var qty = document.createElement("input"); qty.type="number"; qty.min="1"; qty.value="1"; qty.style.width="80px"; qty.id="qty_"+a.id_articulo;
-        var btnAdd = document.createElement("button"); btnAdd.className="btn-inline"; btnAdd.innerText="Agregar al carrito";
+        var precio = document.createElement("div"); precio.style.color = "var(--primary)"; precio.style.fontWeight = "600"; precio.innerText = "Precio: $" + a.precio;
+        
+        var qtyRow = document.createElement("div"); 
+        qtyRow.className="row"; 
+        qtyRow.style.justifyContent="space-between"; 
+        qtyRow.style.alignItems="center";
+        
+        var qty = document.createElement("input"); 
+        qty.type="number"; qty.min="1"; qty.value="1"; 
+        qty.style.width="70px"; qty.style.margin="0"; 
+        qty.id="qty_"+a.id_articulo;
+        
+        var btnAdd = document.createElement("button"); 
+        btnAdd.className="btn-inline"; btnAdd.innerText="Agregar";
+        btnAdd.style.background = "var(--primary)";
+        btnAdd.style.margin = "0";
+
         btnAdd.onclick = function(){
           var cantidad = parseInt(qty.value);
           if (isNaN(cantidad) || cantidad<=0){ toast("Cantidad inválida", "error"); alert(JSON.stringify({mensaje:"Cantidad inválida"})); return; }
-          compra_articulo(a.id_articulo, cantidad); // usa back-end de compra (añade al carrito y descuenta stock)
+          compra_articulo(a.id_articulo, cantidad); 
         };
+        
+        var wrapQty = document.createElement("div");
+        wrapQty.appendChild(qty);
+        
         info.appendChild(nombre); info.appendChild(des); info.appendChild(precio);
-        qtyRow.appendChild(qtyLabel); qtyRow.appendChild(qty); qtyRow.appendChild(btnAdd);
-        info.appendChild(qtyRow);
+        
+        // Estructura mejorada para los botones/inputs
+        var actionsRow = document.createElement("div");
+        actionsRow.style.display="flex";
+        actionsRow.style.gap="8px";
+        actionsRow.style.marginTop="8px";
+        actionsRow.appendChild(qty);
+        actionsRow.appendChild(btnAdd);
+        
+        info.appendChild(actionsRow);
+        
         row.appendChild(img); row.appendChild(info);
         card.appendChild(row);
         cont.appendChild(card);
@@ -364,7 +569,7 @@
       var cont = get("carrito_contenido"); cont.innerHTML="";
       var total = 0;
       if (!carritoItems || carritoItems.length===0){
-        cont.innerHTML = "<div class='muted'>Tu carrito está vacío</div>";
+        cont.innerHTML = "<div class='muted' style='text-align:center; padding:20px;'>Tu carrito está vacío</div>";
         get("carrito_total").innerText = "Total: $0.00"; return;
       }
       carritoItems.forEach(x =>
@@ -376,15 +581,28 @@
         var nombre = document.createElement("strong"); nombre.innerText = x.nombre;
         var detalle = document.createElement("div"); detalle.innerText = "Cantidad: " + x.cantidad + "  •  Precio: $" + x.precio.toFixed(2);
         var costo = x.cantidad * x.precio; total += costo;
-        var costoDiv = document.createElement("div"); costoDiv.innerText = "Costo: $" + costo.toFixed(2);
+        var costoDiv = document.createElement("div"); 
+        costoDiv.innerText = "Subtotal: $" + costo.toFixed(2);
+        costoDiv.style.fontWeight = "500";
+        costoDiv.style.color = "var(--primary)";
+
         var actions = document.createElement("div"); actions.className="toolbar";
+        
         var btnPlus = document.createElement("button"); btnPlus.className="btn-inline"; btnPlus.innerText = "+";
+        btnPlus.style.marginTop = "0";
         btnPlus.onclick = function(){ modifica_carrito(x.id_articulo, +1); };
+        
         var btnMinus = document.createElement("button"); btnMinus.className="btn-inline"; btnMinus.innerText = "-";
+        btnMinus.style.marginTop = "0";
         btnMinus.onclick = function(){ modifica_carrito(x.id_articulo, -1); };
-        var btnEliminar = document.createElement("button"); btnEliminar.className="btn-inline"; btnEliminar.innerText = "Eliminar artículo";
+        
+        var btnEliminar = document.createElement("button"); btnEliminar.className="btn-inline"; btnEliminar.innerText = "Eliminar";
+        btnEliminar.style.background = "#fee2e2";
+        btnEliminar.style.color = "#b91c1c";
+        btnEliminar.style.marginTop = "0";
         btnEliminar.onclick = function(){ eliminar_articulo_carrito(x.id_articulo); };
-        actions.appendChild(btnPlus); actions.appendChild(btnMinus); actions.appendChild(btnEliminar);
+        
+        actions.appendChild(btnMinus); actions.appendChild(btnPlus); actions.appendChild(btnEliminar);
 
         info.appendChild(nombre); info.appendChild(detalle); info.appendChild(costoDiv); info.appendChild(actions);
         row.appendChild(img); row.appendChild(info);
@@ -431,7 +649,6 @@
     }
     function comprar_todo()
     {
-      // POST finaliza_compra con id_usuario y token via query
       showSpinner();
       fetch(URL + "/finaliza_compra?id_usuario=" + encodeURIComponent(id_usuario) + "&token=" + encodeURIComponent(token),
       {
@@ -457,96 +674,175 @@
 </head>
 <body>
   <div class="container">
-    <h2>Tarea 8 - Sistema de comercio electrónico</h2>
-    <div id="spinner" class="spinner">Cargando...</div>
+    <h2>E-commerce Serverless</h2>
+    <div id="spinner" class="spinner">
+        <i class="fas fa-spinner fa-spin"></i> Cargando...
+    </div>
     <div id="toast" class="muted" style="display:none"></div>
 
     <!-- Alta usuario -->
     <div id="alta_usuario" style="display:none">
       <h2>Registro de usuario</h2>
-      Email *<input type="email" id="alta_email"/><br>
-      Contraseña *<input type="password" id="alta_password"/><br>
-      Nombre *<input type="text" id="alta_nombre"/><br>
-      Apellido paterno *<input type="text" id="alta_apellido_paterno"/><br>
-      Apellido materno<input type="text" id="alta_apellido_materno"/><br>
-      Fecha de nacimiento *<input type="datetime-local" id="alta_fecha_nacimiento"/><br>
-      Teléfono<input type="number" id="alta_telefono"/><br>
-      Género<select id="alta_genero"><option></option><option>Masculino</option><option>Femenino</option></select><br><br>
-      <img id="alta_imagen" class="img60" src="/api/Get?nombre=/usuario_sin_foto.png" alt="Foto de usuario"><br>
-      <input type="file" onchange="readSingleFile(files,get('alta_imagen'))" multiple="false" accept="image/*"/><br><br>
+      <label>Email *</label>
+      <input type="email" id="alta_email" placeholder="ejemplo@correo.com"/>
+      
+      <label>Contraseña *</label>
+      <input type="password" id="alta_password" placeholder="Tu contraseña"/>
+      
+      <label>Nombre *</label>
+      <input type="text" id="alta_nombre"/>
+      
+      <label>Apellido paterno *</label>
+      <input type="text" id="alta_apellido_paterno"/>
+      
+      <label>Apellido materno</label>
+      <input type="text" id="alta_apellido_materno"/>
+      
+      <label>Fecha de nacimiento *</label>
+      <input type="datetime-local" id="alta_fecha_nacimiento"/>
+      
+      <label>Teléfono</label>
+      <input type="number" id="alta_telefono"/>
+      
+      <label>Género</label>
+      <select id="alta_genero">
+        <option value="">Selecciona una opción</option>
+        <option>Masculino</option>
+        <option>Femenino</option>
+      </select>
+      
+      <label>Fotografía</label>
+      <div style="text-align:center; margin:16px 0;">
+          <img id="alta_imagen" class="img60" src="/api/Get?nombre=/usuario_sin_foto.png" alt="Foto de usuario">
+      </div>
+      <input type="file" onchange="readSingleFile(files,get('alta_imagen'))" multiple="false" accept="image/*"/>
+      
       <button type="button" onclick="alta()">Registrar usuario</button>
-      <button type="button" onclick="limpia_login();oculta('alta_usuario');muestra('login')">Cancelar</button>
+      <button type="button" class="secondary" onclick="limpia_login();oculta('alta_usuario');muestra('login')">Cancelar</button>
     </div>
 
     <!-- Consulta/modifica usuario -->
     <div id="consulta_usuario" style="display:none">
       <h2>Perfil del usuario</h2>
-      Email *<input type="email" readonly id="consulta_email" placeholder="ingresar una nueva contraseña"/><br>
-      Contraseña *<input type="password" id="consulta_password"/><br>
-      Nombre *<input type="text" id="consulta_nombre"/><br>
-      Apellido paterno *<input type="text" id="consulta_apellido_paterno"/><br>
-      Apellido materno<input type="text" id="consulta_apellido_materno"/><br>
-      Fecha de nacimiento *<input type="datetime-local" id="consulta_fecha_nacimiento"/><br>
-      Teléfono<input type="number" id="consulta_telefono"/><br>
-      Género<select id="consulta_genero"><option></option><option>Masculino</option><option>Femenino</option></select><br><br>
-      <img id="consulta_imagen" class="img60" src="/api/Get?nombre=/usuario_sin_foto.png" alt="Foto de usuario"><br>
-      <input type="file" id="consulta_file" onchange="readSingleFile(files,get('consulta_imagen'))" multiple="false" accept="image/*"/><br>
-      <button class="btn-inline" onclick="quita_foto()">Quitar foto</button><br><br>
+      <label>Email</label>
+      <input type="email" readonly id="consulta_email" style="background-color:#eee; color:#666;"/>
+      
+      <label>Contraseña</label>
+      <input type="password" id="consulta_password" placeholder="(Dejar en blanco para no cambiar)"/>
+      
+      <label>Nombre *</label>
+      <input type="text" id="consulta_nombre"/>
+      
+      <label>Apellido paterno *</label>
+      <input type="text" id="consulta_apellido_paterno"/>
+      
+      <label>Apellido materno</label>
+      <input type="text" id="consulta_apellido_materno"/>
+      
+      <label>Fecha de nacimiento *</label>
+      <input type="datetime-local" id="consulta_fecha_nacimiento"/>
+      
+      <label>Teléfono</label>
+      <input type="number" id="consulta_telefono"/>
+      
+      <label>Género</label>
+      <select id="consulta_genero">
+        <option value="">Selecciona una opción</option>
+        <option>Masculino</option>
+        <option>Femenino</option>
+      </select>
+      
+      <label>Fotografía</label>
+      <div style="display:flex; align-items:center; gap:16px; margin: 12px 0;">
+        <img id="consulta_imagen" class="img60" src="/api/Get?nombre=/usuario_sin_foto.png" alt="Foto de usuario">
+        <div style="flex:1;">
+            <input type="file" id="consulta_file" onchange="readSingleFile(files,get('consulta_imagen'))" multiple="false" accept="image/*"/>
+            <button class="btn-inline secondary" onclick="quita_foto()" style="margin-top:8px;">Quitar foto</button>
+        </div>
+      </div>
+
       <button type="button" onclick="modifica()">Guardar cambios</button>
-      <button type="button" onclick="oculta('consulta_usuario');muestra('menu')">Regresar</button>
+      <button type="button" class="secondary" onclick="oculta('consulta_usuario');muestra('menu')">Regresar</button>
     </div>
 
     <!-- Menú principal -->
     <div id="menu" style="display:none">
+      <h2 style="margin-bottom:32px;">Bienvenido</h2>
       <button type="button" onclick="consulta()">Perfil del usuario</button>
       <button type="button" onclick="ir_captura_articulo()">Captura de artículo</button>
       <button type="button" onclick="ir_compra_articulos()">Compra de artículos</button>
-      <button type="button" onclick="borra()">Eliminar perfil</button>
-      <button type="button" onclick="limpia_login();oculta('menu');muestra('login')">Salir</button>
+      
+      <div style="margin-top:32px; border-top:1px solid var(--border); padding-top:16px;">
+        <button type="button" class="secondary" style="color:var(--danger); border-color: #fee2e2; background:#fff1f2;" onclick="borra()">Eliminar perfil</button>
+        <button type="button" class="secondary" onclick="limpia_login();oculta('menu');muestra('login')">Salir</button>
+      </div>
     </div>
 
     <!-- Captura de artículo -->
     <div id="captura_articulo" style="display:none">
       <h2>Captura de artículo</h2>
-      Nombre *<input type="text" id="cap_art_nombre"/>
-      Descripción *<textarea id="cap_art_descripcion" rows="3"></textarea>
-      Precio *<input type="number" id="cap_art_precio" step="0.01"/>
-      Cantidad *<input type="number" id="cap_art_cantidad"/>
-      Fotografía<br>
-      <img id="cap_art_imagen" class="img60" src="/api/Get?nombre=/usuario_sin_foto.png" alt="Foto del artículo"><br>
-      <input type="file" onchange="readSingleFile(files,get('cap_art_imagen'))" multiple="false" accept="image/*"/><br><br>
-      <button type="button" onclick="alta_articulo()">Guardar</button>
-      <button type="button" onclick="oculta('captura_articulo');muestra('menu')">Regresar</button>
+      <label>Nombre *</label>
+      <input type="text" id="cap_art_nombre" placeholder="Nombre del artículo"/>
+      
+      <label>Descripción *</label>
+      <textarea id="cap_art_descripcion" rows="3" placeholder="Descripción detallada..."></textarea>
+      
+      <label>Precio *</label>
+      <input type="number" id="cap_art_precio" step="0.01"/>
+      
+      <label>Cantidad *</label>
+      <input type="number" id="cap_art_cantidad"/>
+      
+      <label>Fotografía</label>
+      <div style="text-align:center; margin:16px 0;">
+          <img id="cap_art_imagen" class="img60" src="/api/Get?nombre=/usuario_sin_foto.png" alt="Foto del artículo">
+      </div>
+      <input type="file" onchange="readSingleFile(files,get('cap_art_imagen'))" multiple="false" accept="image/*"/>
+      
+      <button type="button" onclick="alta_articulo()">Guardar publicación</button>
+      <button type="button" class="secondary" onclick="oculta('captura_articulo');muestra('menu')">Regresar</button>
     </div>
 
     <!-- Compra de artículos -->
     <div id="compra_articulos" style="display:none">
-      <h2>Compra de artículos</h2>
-      Palabra clave<input type="text" id="compra_busqueda"/>
-      <button type="button" onclick="buscar_articulos()">Buscar</button>
+      <h2>Buscar Artículos</h2>
+      <div style="display:flex; gap:8px;">
+          <input type="text" id="compra_busqueda" placeholder="Buscar productos..."/>
+          <button type="button" style="width:auto; margin:0;" class="btn-inline" onclick="buscar_articulos()">Buscar</button>
+      </div>
+      
       <div id="resultados"></div>
-      <button type="button" onclick="ir_carrito()">Carrito de compra</button>
-      <button type="button" onclick="oculta('compra_articulos');muestra('menu')">Regresar</button>
+      
+      <button type="button" onclick="ir_carrito()">Ver carrito de compra</button>
+      <button type="button" class="secondary" onclick="oculta('compra_articulos');muestra('menu')">Regresar</button>
     </div>
 
     <!-- Carrito -->
     <div id="carrito" style="display:none">
-      <h2>Artículos en el carrito</h2>
+      <h2>Mi Carrito</h2>
       <div id="carrito_contenido"></div>
-      <div id="carrito_total" style="font-weight:bold; margin-top:8px;">Total: $0.00</div><br>
+      
+      <div style="background:#f8fafc; padding:16px; border-radius:8px; margin-top:16px;">
+          <div id="carrito_total" style="font-weight:700; font-size:1.2em; text-align:right;">Total: $0.00</div>
+      </div>
+      
       <button type="button" onclick="comprar_todo()">Comprar todo</button>
-      <button type="button" onclick="eliminar_carrito()">Eliminar carrito</button>
-      <button type="button" onclick="seguir_comprando()">Seguir comprando</button>
-      <button type="button" onclick="oculta('carrito');muestra('menu')">Regresar</button>
+      <button type="button" class="secondary" onclick="seguir_comprando()">Seguir comprando</button>
+      <button type="button" class="secondary" style="color:var(--danger);" onclick="eliminar_carrito()">Vaciar carrito</button>
+      <button type="button" class="secondary" onclick="oculta('carrito');muestra('menu')">Regresar</button>
     </div>
 
     <!-- Login -->
     <div id="login">
       <h2>Acceso al sistema</h2>
-      Email<input type="email" id="login_email"/>
-      Password<input type="password" id="login_password"/>
-      <button type="button" onclick="login()">Aceptar</button>
-      <button type="button" onclick="limpia_alta();oculta('login');muestra('alta_usuario')">Registro de usuario</button>
+      <label>Email</label>
+      <input type="email" id="login_email" placeholder="Correo electrónico"/>
+      
+      <label>Password</label>
+      <input type="password" id="login_password" placeholder="Contraseña"/>
+      
+      <button type="button" onclick="login()">Iniciar sesión</button>
+      <button type="button" class="secondary" onclick="limpia_alta();oculta('login');muestra('alta_usuario')">Crear nueva cuenta</button>
     </div>
   </div>
 </body>
